@@ -4,7 +4,7 @@ name: CI/CD to Haenu Cluster
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
