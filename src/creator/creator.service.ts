@@ -7,14 +7,16 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Creator } from './entities/creator.entity';
 import { Op } from 'sequelize';
 import { CreateCreatorDto } from './dto/create-creator.dto';
+import { Video } from 'src/video/entities/video.entity';
 
 @Injectable()
 export class CreatorService {
   constructor(
     @InjectModel(Creator) private readonly creatorModel: typeof Creator,
+    @InjectModel(Video) private readonly videoModel: typeof Video,
   ) {}
 
-  async getCreator(id: string): Promise<any> {
+  async getCreator(id: number): Promise<any> {
     const creator = await this.creatorModel.findOne({
       where: { id },
     });
@@ -36,6 +38,23 @@ export class CreatorService {
     }
 
     return creator;
+  }
+
+  async getCreatorVideos(id: number): Promise<any> {
+    const creator = await this.creatorModel.findOne({
+      where: { id },
+    });
+
+    if (!creator) {
+      throw new NotFoundException('해당하는 크리에이터가 없습니다.');
+    }
+
+    const videos = await this.videoModel.findAll({
+      where: { creator_id: id },
+      include: [Creator],
+    });
+
+    return videos;
   }
 
   async searchCreator(name: string): Promise<any> {

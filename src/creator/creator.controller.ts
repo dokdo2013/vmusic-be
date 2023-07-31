@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { CreatorService } from './creator.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCreatorDto } from './dto/create-creator.dto';
@@ -9,13 +16,25 @@ export class CreatorController {
   constructor(private creatorService: CreatorService) {}
 
   @Get('id/:id')
-  async getCreator(@Param('id') id: string) {
+  async getCreator(@Param('id', ParseIntPipe) id: number) {
     return await this.creatorService.getCreator(id);
+  }
+
+  @Get('id/:id/videos')
+  async getCreatorVideos(@Param('id', ParseIntPipe) id: number) {
+    return await this.creatorService.getCreatorVideos(id);
   }
 
   @Get('name/:name')
   async getCreatorByName(@Param('name') name: string) {
     return await this.creatorService.getCreatorByName(name);
+  }
+
+  @Get('name/:name/videos')
+  async getCreatorVideosByName(@Param('name') name: string) {
+    const user = await this.creatorService.getCreatorByName(name);
+
+    return await this.creatorService.getCreatorVideos(user.id);
   }
 
   @Get('search/:keyword')
