@@ -4,12 +4,16 @@ import { Music } from './entities/music.entity';
 import { Author } from './entities/author.entity';
 import { Op } from 'sequelize';
 import { CreateMusicDto } from './dto/create-music.dto';
+import { Video } from 'src/video/entities/video.entity';
+import { Creator } from 'src/creator/entities/creator.entity';
 
 @Injectable()
 export class MusicService {
   constructor(
     @InjectModel(Music) private readonly musicModel: typeof Music,
     @InjectModel(Author) private readonly authorModel: typeof Author,
+    @InjectModel(Video) private readonly videoModel: typeof Video,
+    @InjectModel(Creator) private readonly creatorModel: typeof Creator,
   ) {}
 
   async getMusic(id: string): Promise<any> {
@@ -46,6 +50,32 @@ export class MusicService {
     }
 
     return musics;
+  }
+
+  async getMusicVideos(id: string): Promise<any> {
+    const music = await this.musicModel.findOne({
+      where: { id },
+    });
+
+    if (!music) {
+      throw new NotFoundException('해당하는 노래가 없습니다.');
+    }
+
+    const videos = await this.videoModel.findAll({
+      where: { music_id: id },
+      include: [
+        {
+          model: this.musicModel,
+          attributes: ['id', 'name', 'cover_image_url'],
+        },
+        {
+          model: this.creatorModel,
+          attributes: ['id', 'name', 'profile_image_url'],
+        },
+      ],
+    });
+
+    return videos;
   }
 
   async createMusic(body: CreateMusicDto): Promise<any> {

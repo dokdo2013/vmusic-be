@@ -6,9 +6,11 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Author } from './entities/author.entity';
 import { AuthorService } from './author.service';
 import { AuthorController } from './author.controller';
+import { Video } from 'src/video/entities/video.entity';
+import { Creator } from 'src/creator/entities/creator.entity';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Music, Author])],
+  imports: [SequelizeModule.forFeature([Music, Author, Video, Creator])],
   controllers: [MusicController, AuthorController],
   providers: [MusicService, AuthorService],
 })

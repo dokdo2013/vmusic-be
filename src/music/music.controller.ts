@@ -13,6 +13,11 @@ export class MusicController {
     return await this.musicService.getMusic(id);
   }
 
+  @Get(':id/videos')
+  async getMusicVideos(@Param('id') id: string) {
+    return await this.musicService.getMusicVideos(id);
+  }
+
   @Get('search/:keyword')
   async searchMusic(@Param('keyword') keyword: string) {
     return await this.musicService.searchMusic(keyword);
