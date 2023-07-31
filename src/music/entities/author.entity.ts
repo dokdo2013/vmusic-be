@@ -43,7 +43,7 @@ export class Author extends Model<Author> {
   name: string;
 
   @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(512),
     allowNull: true,
     comment: '가수 프로필 이미지',
   })

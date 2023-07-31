@@ -37,7 +37,7 @@ export class Creator extends Model<Creator, CreateCreatorDto> {
   name: string;
 
   @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(512),
     allowNull: false,
     comment: '크리에이터 프로필 이미지',
   })

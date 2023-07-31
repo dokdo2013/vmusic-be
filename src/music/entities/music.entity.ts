@@ -23,7 +23,7 @@ import {
   Column,
   DataType,
   ForeignKey,
-  HasOne,
+  BelongsTo,
 } from 'sequelize-typescript';
 
 import { Author } from './author.entity';
@@ -50,12 +50,16 @@ export class Music extends Model<Music> {
   })
   name: string;
 
+  @ForeignKey(() => Author)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
     comment: '가수 id',
   })
   author_id: number;
+
+  @BelongsTo(() => Author)
+  author: Author;
 
   @Column({
     type: DataType.TEXT,
@@ -65,7 +69,7 @@ export class Music extends Model<Music> {
   description: string;
 
   @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(512),
     allowNull: true,
     comment: '노래 커버 이미지',
   })
