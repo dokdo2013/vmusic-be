@@ -9,6 +9,11 @@ import { ApiTags } from '@nestjs/swagger';
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
+  @Get('')
+  async getVideos() {
+    return await this.videoService.getVideos();
+  }
+
   @Get(':id')
   async getVideo(@Param('id') id: string) {
     return await this.videoService.getVideo(id);

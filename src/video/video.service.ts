@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { CreateVideoRequestDto } from './dto/create-video-request.dto';
+import { Creator } from 'src/creator/entities/creator.entity';
 
 @Injectable()
 export class VideoService {
@@ -12,11 +13,31 @@ export class VideoService {
     @InjectModel(Video) private readonly videoModel: typeof Video,
     @InjectModel(VideoRequest)
     private readonly videoRequestModel: typeof VideoRequest,
+    @InjectModel(Creator) private readonly creatorModel: typeof Creator,
   ) {}
+
+  async getVideos(): Promise<any> {
+    return await this.videoModel.findAll({
+      order: [['created_at', 'DESC']],
+      include: [
+        {
+          model: Creator,
+          attributes: ['id', 'name', 'profile_image_url'],
+        },
+      ],
+      limit: 120,
+    });
+  }
 
   async getVideo(id: string): Promise<any> {
     const video = await this.videoModel.findOne({
       where: { id },
+      include: [
+        {
+          model: Creator,
+          attributes: ['id', 'name', 'profile_image_url'],
+        },
+      ],
     });
 
     if (!video) {

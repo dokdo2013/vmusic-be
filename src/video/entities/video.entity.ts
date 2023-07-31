@@ -26,6 +26,8 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
+import { Creator } from 'src/creator/entities/creator.entity';
+import { Music } from 'src/music/entities/music.entity';
 
 // import { Creator } from './creator.entity';
 
@@ -39,6 +41,7 @@ export class Video extends Model<Video> {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
     comment: '노래영상 id',
   })
   id: number;
@@ -58,6 +61,18 @@ export class Video extends Model<Video> {
   })
   provider_id: string;
 
+  @ForeignKey(() => Music)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    comment: '노래 id',
+  })
+  music_id: number;
+
+  @BelongsTo(() => Music)
+  music: Music;
+
+  @ForeignKey(() => Creator)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -65,8 +80,8 @@ export class Video extends Model<Video> {
   })
   creator_id: number;
 
-  // @BelongsTo(() => Creator)
-  // creator: Creator;
+  @BelongsTo(() => Creator)
+  creator: Creator;
 
   @Column({
     type: DataType.TEXT,
@@ -76,7 +91,7 @@ export class Video extends Model<Video> {
   title: string;
 
   @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(512),
     allowNull: true,
     comment: '썸네일 이미지 주소',
   })
