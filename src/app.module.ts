@@ -9,6 +9,7 @@ import { CreatorModule } from './creator/creator.module';
 import { MusicModule } from './music/music.module';
 import { UserModule } from './user/user.module';
 import { VideoModule } from './video/video.module';
+import { BoardModule } from './board/board.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { VideoModule } from './video/video.module';
     MusicModule,
     UserModule,
     VideoModule,
+    BoardModule,
   ],
   controllers: [AppController],
   providers: [

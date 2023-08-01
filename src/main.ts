@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { VideoModule } from './video/video.module';
 import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import { BoardModule } from './board/board.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,7 +26,14 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config, {
     ignoreGlobalPrefix: true,
-    include: [AppModule, CreatorModule, MusicModule, UserModule, VideoModule],
+    include: [
+      AppModule,
+      CreatorModule,
+      MusicModule,
+      UserModule,
+      VideoModule,
+      BoardModule,
+    ],
   });
   SwaggerModule.setup('apidocs', app, document);
 
