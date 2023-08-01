@@ -6,18 +6,20 @@ import { MusicModule } from './music/music.module';
 import { UserModule } from './user/user.module';
 import { VideoModule } from './video/video.module';
 import * as cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
+  app.use(helmet());
   app.enableCors({
     origin: true,
     credentials: true,
   });
 
   const config = new DocumentBuilder()
-    .setTitle('NestJS API')
-    .setDescription('The NestJS API description')
+    .setTitle('Vmusic API')
+    .setDescription('vmusic.kr 공식 API 문서입니다.')
     .addBearerAuth()
     .setVersion('1.0')
     .build();
