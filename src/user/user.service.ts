@@ -39,11 +39,15 @@ export class UserService {
     };
   }
 
-  generateTwitchLoginUrl(): string {
+  generateTwitchLoginUrl(path: string): string {
     const clientId = this.configService.get<string>('TWITCH_CLIENT_ID');
     const redirectUri = this.configService.get<string>('TWITCH_REDIRECT_URI');
 
     const url = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=user:read:email`;
+
+    if (path) {
+      return `${url}&state=${path}`;
+    }
 
     return url;
   }
@@ -146,6 +150,13 @@ export class UserService {
       domain: cookieDomain,
     });
 
-    return res.redirect(`${FRONTEND_HOST}/`);
+    // if state exists, redirect to state
+    let frontendRedirectUrl = `${FRONTEND_HOST}/`;
+
+    if (query.state) {
+      frontendRedirectUrl = `${FRONTEND_HOST}${query.state}`;
+    }
+
+    return res.redirect(frontendRedirectUrl);
   }
 }

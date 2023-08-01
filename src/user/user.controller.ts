@@ -1,6 +1,11 @@
 import { Controller, Get, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { ConfigService } from '@nestjs/config';
 
@@ -31,8 +36,14 @@ export class UserController {
     summary: 'Twitch 로그인',
     description: 'Twitch 로그인을 진행합니다.',
   })
-  redirectTwitch(@Res() res: any) {
-    const url = this.userService.generateTwitchLoginUrl();
+  @ApiQuery({
+    name: 'path',
+    description: '로그인 후 리다이렉트할 경로',
+    type: String,
+    required: false,
+  })
+  redirectTwitch(@Query('path') path: string, @Res() res: any) {
+    const url = this.userService.generateTwitchLoginUrl(path);
 
     res.redirect(url);
   }
