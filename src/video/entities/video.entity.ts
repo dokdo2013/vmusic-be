@@ -27,6 +27,7 @@ import {
   BelongsTo,
 } from 'sequelize-typescript';
 import { Creator } from 'src/creator/entities/creator.entity';
+import { Group } from 'src/group/entities/group.entity';
 import { Music } from 'src/music/entities/music.entity';
 
 // import { Creator } from './creator.entity';
@@ -72,16 +73,28 @@ export class Video extends Model<Video> {
   @BelongsTo(() => Music)
   music: Music;
 
+  // enum('creator', 'group')
+  @Column({
+    type: DataType.ENUM('creator', 'group'),
+    allowNull: false,
+    comment: '아티스트 타입',
+  })
+  artist_type: string;
+
   @ForeignKey(() => Creator)
+  @ForeignKey(() => Group)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    comment: '영상 올린 크리에이터 id',
+    comment: '아티스트 id',
   })
-  creator_id: number;
+  artist_id: number;
 
   @BelongsTo(() => Creator)
   creator: Creator;
+
+  @BelongsTo(() => Group)
+  group: Group;
 
   @Column({
     type: DataType.TEXT,

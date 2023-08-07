@@ -10,6 +10,7 @@ import { MusicModule } from './music/music.module';
 import { UserModule } from './user/user.module';
 import { VideoModule } from './video/video.module';
 import { BoardModule } from './board/board.module';
+import { GroupModule } from './group/group.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { BoardModule } from './board/board.module';
     UserModule,
     VideoModule,
     BoardModule,
+    GroupModule,
   ],
   controllers: [AppController],
   providers: [

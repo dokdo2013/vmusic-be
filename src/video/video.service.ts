@@ -17,7 +17,7 @@ export class VideoService {
   ) {}
 
   async getVideos(): Promise<any> {
-    return await this.videoModel.findAll({
+    const video = await this.videoModel.findAll({
       order: [['created_at', 'DESC']],
       include: [
         {
@@ -27,6 +27,12 @@ export class VideoService {
       ],
       limit: 120,
     });
+
+    if (!video) {
+      throw new NotFoundException('해당하는 영상이 없습니다.');
+    }
+
+    return video;
   }
 
   async getVideo(id: string): Promise<any> {

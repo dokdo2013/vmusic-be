@@ -50,7 +50,7 @@ export class CreatorService {
     }
 
     const videos = await this.videoModel.findAll({
-      where: { creator_id: id },
+      where: { artist_type: 'creator', artist_id: id },
       include: [Creator],
     });
 

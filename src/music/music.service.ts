@@ -68,10 +68,10 @@ export class MusicService {
           model: this.musicModel,
           attributes: ['id', 'name', 'cover_image_url'],
         },
-        {
-          model: this.creatorModel,
-          attributes: ['id', 'name', 'profile_image_url'],
-        },
+        // {
+        //   model: this.creatorModel,
+        //   attributes: ['id', 'name', 'profile_image_url'],
+        // },
       ],
     });
 
